@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#define LENGTH 512
 
 void readHistory(const char *FILENAME);
 void operators(char *line, FILE *file);
@@ -16,18 +17,19 @@ void loop() {
     const char FILENAME[] = "history.txt";
     const char HISTORY[] = "history";
     const char EXIT[] = "exit";
-
+    //Length is equal to 512 because the last index contains \0 and the before last index contains \n
+    //from stdin so the input will fit exactly 510 characters!
     FILE *file = fopen(FILENAME, "a+");
-    char input[511] = "";
+    char input[LENGTH] = "";
     while (1) {
-        printf("Enter a String or \"%s\" to end program:\n", EXIT);
-        gets(input);
+        printf("Enter a String or \"exit\" to end program:\n");
+        fgets(input,510,stdin);
+        input[strcspn(input, "\n")] = '\0';
         if (strcmp(input, EXIT) == 0) {
             printf("Program finished.");
             fclose(file);
             return;
         }
-
         if (strcmp(input, HISTORY) == 0) {
             //if "history" is passed in we have to close the file, so it can save its contents, and they are able to be read.
             fclose(file);
