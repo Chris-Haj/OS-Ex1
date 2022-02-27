@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #define LENGTH 512
+#define MAX_INPUT 510
 
 void readHistory(const char *FILENAME);
 void operators(char *line, FILE *file);
@@ -9,7 +10,6 @@ void loop();
 void memoryPrint(char *line, int start, int end, FILE *file);
 
 int main() {
-    loop();
     return 0;
 }
 //Main loop function to keep asking user for input and call other functions according to what is passed in to the string buffer
@@ -17,13 +17,13 @@ void loop() {
     const char FILENAME[] = "history.txt";
     const char HISTORY[] = "history";
     const char EXIT[] = "exit";
-    //Length is equal to 512 because the last index contains \0 and the before last index contains \n
-    //from stdin so the input will fit exactly 510 characters!
+    //Length is equal to 512 because the last index contains \0 and the before last index contains
+    // \n from stdin so the input will fit exactly 510 characters!
     FILE *file = fopen(FILENAME, "a+");
     char input[LENGTH] = "";
     while (1) {
         printf("Enter a String or \"exit\" to end program:\n");
-        fgets(input,510,stdin);
+        fgets(input,MAX_INPUT,stdin);
         input[strcspn(input, "\n")] = '\0';
         if (strcmp(input, EXIT) == 0) {
             printf("Program finished.");
